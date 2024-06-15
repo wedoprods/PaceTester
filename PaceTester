@@ -1,0 +1,349 @@
+while true do
+	if pcall(function() game.Players.LocalPlayer.leaderstats:WaitForChild("Blocks Mined") end) then
+		if pcall(function() game.Players.LocalPlayer.PlayerGui.ScreenGui.StatsFrame.Coins:FindFirstChild("Amount") end) then
+			if game.Players.LocalPlayer.PlayerGui.ScreenGui.StatsFrame.Tokens.Amount.Text ~= "Loading..." then
+				break
+			end
+		end
+	end
+	wait(1)
+end
+local Running = false
+local startvalue = 0
+local endvalue = 0
+local start = false
+local minute = false
+local fiveminute = false
+local minutewait = 60
+local fiveminutewait = 300
+local waitime = 0
+local mined = 0
+local customwait = false
+local customwaittime = 0
+local selected = false
+local waittodisplay = 0
+local rebsstart = 0
+local rebsend = 0
+local rebsdone = 0 
+local displaystoponly = false
+local stopminedinwait = 0
+local Gui = game.Players.LocalPlayer.PlayerGui.ScreenGui.StatsFrame.Tokens:Clone()
+Gui.Parent = game.Players.LocalPlayer.PlayerGui.ScreenGui.StatsFrame
+Gui.More:Destroy()
+Gui.Logo.Image = 'rbxassetid://15906467021'
+Gui.Amount.TextColor3 = Gui.Parent.Coins.Amount.TextColor3
+Gui.Position = UDim2.new(0, 0,-1.354, 10)
+Gui.Amount.Text = ":3"
+local sell = game.Players.LocalPlayer.PlayerGui.ScreenGui.StatsFrame:FindFirstChild("Sell")
+
+if sell then
+	sell.Position = UDim2.new(-10,0,-10,0)
+else 
+	print("xd")
+end
+
+function comma(amount)
+	while true do
+		amount, k = string.gsub(amount, "^(-?%d+)(%d%d%d)", '%1,%2')
+		if k == 0 then break
+
+		end
+	end 
+	return amount
+end
+
+
+
+
+local _1min = Instance.new("ImageLabel")
+local minutebutton = Instance.new("TextButton")
+
+
+_1min.Name = "1min"
+_1min.Parent = game.Players.LocalPlayer.PlayerGui.ScreenGui.StatsFrame
+_1min.Active = true
+_1min.BackgroundColor3 = Color3.fromRGB(248, 248, 248)
+_1min.BackgroundTransparency = 1.000
+_1min.Position = UDim2.new(0.520399153, 0, -1.68372333, 10)
+_1min.Size = UDim2.new(0.270020276, 0, 0.253320187, 0)
+_1min.ZIndex = 2
+_1min.Image = "rbxassetid://1511196841"
+_1min.ImageColor3 = Color3.fromRGB(39, 180, 255)
+_1min.ScaleType = Enum.ScaleType.Slice
+_1min.SliceCenter = Rect.new(9, 11, 91, 89)
+
+minutebutton.Parent = _1min
+minutebutton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+minutebutton.BackgroundTransparency = 1.000
+minutebutton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+minutebutton.BorderSizePixel = 0
+minutebutton.Position = UDim2.new(-0.101070119, 0, -0.10972467009, 0)
+minutebutton.Size = UDim2.new(0, 45, 0, 23)
+minutebutton.ZIndex = 2
+minutebutton.Font = Enum.Font.Arial
+minutebutton.Text = "1 Min"
+minutebutton.TextColor3 = Color3.fromRGB(255, 255, 255)
+minutebutton.TextScaled = true
+minutebutton.TextSize = 14.000
+minutebutton.TextWrapped = true
+minutebutton.TextStrokeTransparency = 0.5
+
+
+local _5min = Instance.new("ImageLabel")
+local fiveminutebutton = Instance.new("TextButton")
+
+
+_5min.Name = "5min"
+_5min.Parent = game.Players.LocalPlayer.PlayerGui.ScreenGui.StatsFrame
+_5min.Active = true
+_5min.BackgroundColor3 = Color3.fromRGB(248, 248, 248)
+_5min.BackgroundTransparency = 1.000
+_5min.Position = UDim2.new(0.818491876, 0, -1.68372333, 10)
+_5min.Size = UDim2.new(0.270020276, 0, 0.253320187, 0)
+_5min.ZIndex = 2
+_5min.Image = "rbxassetid://1511196841"
+_5min.ImageColor3 = Color3.fromRGB(39, 180, 255)
+_5min.ScaleType = Enum.ScaleType.Slice
+_5min.SliceCenter = Rect.new(9, 11, 91, 89)
+
+fiveminutebutton.Parent = _5min
+fiveminutebutton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+fiveminutebutton.BackgroundTransparency = 1.000
+fiveminutebutton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+fiveminutebutton.BorderSizePixel = 0
+fiveminutebutton.Position = UDim2.new(-0.0736476034, 0, -0.10972467009, 0)
+fiveminutebutton.Size = UDim2.new(0, 45, 0, 23)
+fiveminutebutton.ZIndex = 2
+fiveminutebutton.Font = Enum.Font.Arial
+fiveminutebutton.Text = "5 Min"
+fiveminutebutton.TextColor3 = Color3.fromRGB(255, 255, 255)
+fiveminutebutton.TextScaled = true
+fiveminutebutton.TextSize = 14.000
+fiveminutebutton.TextWrapped = true
+fiveminutebutton.TextStrokeTransparency = 0.5
+
+local Start = _5min:Clone()
+Start:WaitForChild("TextButton"):Destroy()
+local StartButton = fiveminutebutton:Clone()
+Start.Position = UDim2.new(0, 0, -1.69704831, 10)
+Start.Size = UDim2.new(0.459842741, 0, 0.266645253, 0)
+StartButton.Text = "Start"
+Start.Parent = game.Players.LocalPlayer.PlayerGui.ScreenGui.StatsFrame
+StartButton.Parent = Start
+StartButton.Size = UDim2.new(0,80,0,24)
+StartButton.Position = UDim2.new(-0.0736476034, 0, -0.109724671, 0)
+Start.Name = "Start"
+
+local TextLabel = Instance.new("TextLabel")
+
+
+
+
+TextLabel.Parent = Start
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 0
+TextLabel.Position = UDim2.new(-0.188091815, 0, -2, 0)
+TextLabel.Size = UDim2.new(1.10000002, 7, 0, 38)
+TextLabel.Font = Enum.Font.Arial
+TextLabel.Text = "(Click on the sides of Start Button since its bugged idk why lol)"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 14.000
+TextLabel.TextStrokeTransparency = 0.500
+TextLabel.TextWrapped = true
+
+
+local Custom = Instance.new("ImageLabel")
+local TextBox = Instance.new("TextBox")
+
+--Properties:
+
+Custom.Name = "Custom"
+Custom.Parent = Start.Parent
+Custom.Active = true
+Custom.BackgroundColor3 = Color3.fromRGB(248, 248, 248)
+Custom.BackgroundTransparency = 1.000
+Custom.Position = UDim2.new(0.496227682, 0, -2.01098824, 10)
+Custom.Size = UDim2.new(0.459842741, 0, 0.266645253, 0)
+Custom.ZIndex = 2
+Custom.Image = "rbxassetid://1511196841"
+Custom.ImageColor3 = Color3.fromRGB(39, 180, 255)
+Custom.ScaleType = Enum.ScaleType.Slice
+Custom.SliceCenter = Rect.new(9, 11, 91, 89)
+
+TextBox.Parent = Custom
+TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.BackgroundTransparency = 1.000
+TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.BorderSizePixel = 0
+TextBox.Position = UDim2.new(-0.0177852996, 0, -0.0100767724, 0)
+TextBox.Size = UDim2.new(0, 74, 0, 19)
+TextBox.ZIndex = 2
+TextBox.Font = Enum.Font.Arial
+TextBox.Text = "Enter Time (In Sec)"
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextScaled = true
+TextBox.TextSize = 14.000
+TextBox.TextStrokeTransparency = 0.500
+TextBox.TextWrapped = true
+
+local Set = Instance.new("ImageLabel")
+local setbutton = Instance.new("TextButton")
+
+--Properties:
+
+Set.Name = "Set"
+Set.Parent = Start.Parent
+Set.Active = true
+Set.BackgroundColor3 = Color3.fromRGB(248, 248, 248)
+Set.BackgroundTransparency = 1.000
+Set.Position = UDim2.new(0.99637264, 0, -2.01791739, 10)
+Set.Size = UDim2.new(0.270020276, 0, 0.253320187, 0)
+Set.ZIndex = 2
+Set.Image = "rbxassetid://1511196841"
+Set.ImageColor3 = Color3.fromRGB(39, 180, 255)
+Set.ScaleType = Enum.ScaleType.Slice
+Set.SliceCenter = Rect.new(9, 11, 91, 89)
+
+setbutton.Parent = Set
+setbutton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+setbutton.BackgroundTransparency = 1.000
+setbutton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+setbutton.BorderSizePixel = 0
+setbutton.Position = UDim2.new(-0.0135654537, 0, -0.10025271, 0)
+setbutton.Size = UDim2.new(0, 45, 0, 23)
+setbutton.ZIndex = 2
+setbutton.Font = Enum.Font.Arial
+setbutton.Text = "Set"
+setbutton.TextColor3 = Color3.fromRGB(255, 255, 255)
+setbutton.TextScaled = true
+setbutton.TextSize = 14.000
+setbutton.TextStrokeTransparency = 0.500
+setbutton.TextWrapped = true
+
+minutebutton.MouseButton1Click:Connect(function()
+	if Running then print("Cant Change while Running") return end
+	if fiveminute then print("You can only select 1 option") return end
+	if customwait then print("You can only select 1 option") return end
+	if minute then
+		waitime = 0
+		minute = false
+		minutebutton.TextColor3 = Color3.fromRGB(255, 255, 255)
+	else
+		waitime = minutewait
+		minutebutton.TextColor3 = Color3.fromRGB(85, 255, 0)
+		minute = true
+		waittodisplay = minutewait
+	end
+end)
+
+fiveminutebutton.MouseButton1Click:Connect(function()
+	if Running then print("Cant Change while Running") return end
+	if minute then print("You can only select 1 option") return end
+	if customwait then print("You can only select 1 option") return end
+	if fiveminute then
+		fiveminute = false
+		waitime = 0
+		fiveminutebutton.TextColor3 = Color3.fromRGB(255, 255, 255)
+	else
+		waitime = fiveminutewait
+		fiveminutebutton.TextColor3 = Color3.fromRGB(85, 255, 0)
+		fiveminute = true
+		waittodisplay = fiveminutewait
+	end
+end)
+
+setbutton.MouseButton1Click:Connect(function()
+	if Running then print("Cant Change while Running") return end
+	if fiveminute then print("You can only select 1 option") return end
+	if minute then print("You can only select 1 option") return end
+	if customwait == false then
+		customwaittime = TextBox.Text
+		local stringtonumber = tonumber(customwaittime)
+		waitime = stringtonumber
+		waittodisplay = stringtonumber
+		setbutton.TextColor3 = Color3.fromRGB(85, 255, 0)
+		customwait = true
+	else
+		waitime = 0
+		setbutton.TextColor3 = Color3.fromRGB(255, 255, 255)
+		customwait = false
+	end
+end)
+
+StartButton.MouseButton1Click:Connect(function()
+	if waitime > 0 then
+		if Running then 
+			displaystoponly = true
+			waitime = 1
+			Running = false
+			Gui.Amount.Text = "Stopping.."
+			wait(1)
+			stopminedinwait -= 1
+			Gui.Amount.Text = "You Mined "..comma(mined).." Blocks and did "..comma(rebsdone).." Rebirths in "..stopminedinwait.."S"
+			StartButton.Text = 'Start'
+			StartButton.TextColor3 = Color3.fromRGB(255,255,255)
+			wait(0.1)
+			stopminedinwait = 0
+			fiveminutebutton.TextColor3 = Color3.fromRGB(255, 255, 255)
+			minutebutton.TextColor3 = Color3.fromRGB(255, 255, 255)
+			minute = false
+			fiveminute = false
+			displaystoponly = false
+			customwait = false
+			TextBox.Text = "Enter Time (In Sec)"
+			customwaittime = 0
+			setbutton.TextColor3 = Color3.fromRGB(255, 255, 255)
+		return end
+		Gui.Amount.Text = "Starting..."
+		Running = true
+		wait(5)
+		StartButton.Text = 'Stop'
+		StartButton.TextColor3 = Color3.fromRGB(255, 0, 0)
+		startvalue = game.Players.LocalPlayer:WaitForChild("leaderstats"):WaitForChild("Blocks Mined").Value
+		rebsstart = game.Players.LocalPlayer:WaitForChild("leaderstats"):WaitForChild("Rebirths").Value
+		repeat
+			wait(1)
+			waitime -= 1
+			stopminedinwait +=1
+			if displaystoponly == false then
+				Gui.Amount.Text = waitime.."s left"
+				end
+		until waitime == 0
+		if displaystoponly then
+			endvalue = game.Players.LocalPlayer:WaitForChild("leaderstats"):WaitForChild("Blocks Mined").Value
+			rebsend = game.Players.LocalPlayer:WaitForChild("leaderstats"):WaitForChild("Rebirths").Value
+			mined = endvalue - startvalue
+			rebsdone = rebsend - rebsstart
+		else	
+		endvalue = game.Players.LocalPlayer:WaitForChild("leaderstats"):WaitForChild("Blocks Mined").Value
+		rebsend = game.Players.LocalPlayer:WaitForChild("leaderstats"):WaitForChild("Rebirths").Value
+		mined = endvalue - startvalue
+		rebsdone = rebsend - rebsstart
+		wait(0.2)
+		Gui.Amount.Text = "Hol up"
+		wait(1)
+		Gui.Amount.Text = "You Mined "..comma(mined).." Blocks and did "..comma(rebsdone).." Rebirths in "..waittodisplay.."S"
+		startvalue = 0
+		endvalue = 0
+		StartButton.Text = 'Start'
+		StartButton.TextColor3 = Color3.fromRGB(255,255,255)
+		waitime = 0
+		fiveminutebutton.TextColor3 = Color3.fromRGB(255, 255, 255)
+		minutebutton.TextColor3 = Color3.fromRGB(255, 255, 255)
+		minute = false
+		fiveminute = false
+		Running = false
+		customwait = false
+		TextBox.Text = "Enter Time (In Sec)"
+		customwaittime = 0
+		setbutton.TextColor3 = Color3.fromRGB(255, 255, 255)
+		end	
+	else
+		Gui.Amount.Text = "Select 1 Option to start"
+	end
+end)
+
+print("Loaded--Made By IzakLive28")
